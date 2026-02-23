@@ -1,0 +1,2 @@
+啊今天也是一直在看济瞄代码
+主要:较详细了解了YOLO, 完成detector的通篇阅读, 大致了解了openvino和opencv, 和torch很像
