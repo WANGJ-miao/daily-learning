@@ -1,0 +1,25 @@
+今天的记录文件是用emacs写的
+
+METHOD
+解决emacs配置问题的通用方法:
+1.translate the need into keyword
+2.use apropos(-variable, -function) to look for relative commands
+3.use C-h f to look up function
+4.use C-h v to look up variable
+5.use M-: to temporarily test
+6.comfirm validity
+7.write into .emacs
+(setq display-line-numbers-type 'relative)
+(global-display-line-numbers 0)
+(+ 1 2)
+
+lisp 基本语法规则:
+1.使用函数:(function parameter1 parameter2)
+2.设置变量:(setq variable value)
+3.基础数据类型 - 数字 eg. 1, 2 ...
+	       - 字符串 eg. "string", "hello world"
+	       - 符号 eg. relative, display-line-number-type ... (引用的时候用用quote函数, 或者前面加'
+	       - 列表 eg. '(1 2 3)
+	       - 布尔值 t nil
+(setq x 10)
+(+ x 1)

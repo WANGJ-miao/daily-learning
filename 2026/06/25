@@ -1,0 +1,48 @@
+30号考大物
+
+开始罗列暑假任务:
+
+* 战队工作
+  * 完善自瞄
+	* 完成雷达
+	* 完善视频图传
+	* 管理好英雄组
+
+* 自主探索
+  * csapp 读书+lab
+	* 神经网络, 希望能在暑假自己训练出来一个自瞄的识别模型
+	* 探索linux工具, 每天钻研一个
+	* 精进vim
+	* 学会使用emacs, org
+	* 开始着手构建自己的知识库, 创建个人网站
+
+
+决定从现在开始, 每次报错都要记录下来, 搞清楚到底发生了什么, 具体是怎么解决的, 力求下次碰到类似的错误能自己解决
+eg.
+	现象：
+	colcon build 失败
+
+	第一条核心错误：
+	Could not find ignition-msgs8Config.cmake
+
+	错误层级：
+	CMake / Gazebo 依赖
+
+	根因：
+	仓库需要 Fortress，但系统是 Jazzy/Harmonic
+
+	解决方案：
+	用 Humble/Fortress，或者移植到 Harmonic
+
+问题是分不同层次的, 不同的问题需要关注不同的计算机层级, 需要对不同层次的理解
+
+
+
+
+ros2的层次结构
+1.操作系统层
+2.通信中间层
+3.rmw层(ros middleware interface) 用于把上层ros api和不同的dds隔离开, 也就是对于dds的抽象
+4.rcl层(ros client library) 负责更通用的ros概念, node, publisher, subscription......
+5.rclcpp/rclpy层
+6.用户节点层
