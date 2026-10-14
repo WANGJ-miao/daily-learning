@@ -1,7 +1,7 @@
 今天的记录文件是用emacs写的
 
 METHOD
-解决emacs配置问题的通用方法:
+解决Emacs配置问题的通用方法:
 1.translate the need into keyword
 2.use apropos(-variable, -function) to look for relative commands
 3.use C-h f to look up function
