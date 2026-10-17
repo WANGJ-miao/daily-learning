@@ -5,3 +5,4 @@
 
 ## some projects that I want to implement in the future
 1. 使用emacs, 实现进入在合适的时候插入不同的音乐, 营造自己的工作环境
+2. 在emacs中实现ai自动代码补全
