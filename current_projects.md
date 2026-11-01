@@ -10,6 +10,8 @@
 ## some PROJECTS that I want to implement in the future
 1. 使用emacs, 实现进入在合适的时候插入不同的音乐, 营造自己的工作环境
 2. 在emacs中实现ai自动代码补全
+3. pyim-isearch. I need to know what am I typing into the search box, I need hints on the current input method, and I ought to have method to change it
+4. automate the procedure of insert a word and return its definition and its common usage. Maybe I need a local vocabulary table, and some mechanism to find and insert it.
 
 ## some PROBLEMS found when exploring
 
