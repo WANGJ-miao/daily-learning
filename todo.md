@@ -1,3 +1,7 @@
+# todos
+
+- [ ] 尝试自己清理电脑， 搜索需要注意的地方， 例如经典防护
+
 # current PROJECTS
 
 1. 自瞄调试网页, 自己制作
@@ -12,15 +16,12 @@
 2. 在emacs中实现ai自动代码补全
 3. pyim-isearch. I need to know what am I typing into the search box, I need hints on the current input method, and I ought to have method to change it
 4. automate the procedure of insert a word and return its definition and its common usage. Maybe I need a local vocabulary table, and some mechanism to find and insert it.
+5. c programming **that's what i should polish in the future.** C NERVER DIES
 
 ## some PROBLEMS found when exploring
-
-1. 在接入显示屏的时候， 在wsl中打开的软件， 例如emacs， 会发生窗口显示的问题。
-2. emacs gui 有时候会发生误触， 一下子弹出来很多字符
-
-以上两个问题再也不会bother我了， 因为我安装了双系统， 直接使用原生linux
 
 3. 在下载安装包的时候， 整个emcas会卡住动不了， 很难受
 4. 在使用htop的时候， 如果在help page按C-s， 会整个页面卡住， 最后按C-c退出的时候， 在退出之前按的所有案件就直接dump到终端里了 
 5. markdown-mode table对于中文对齐的支持
 6. tear page
+7. 使用boomer的时候， 发生鼠标闪动
