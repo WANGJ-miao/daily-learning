@@ -1,6 +1,8 @@
 # todos
 
 - [ ] 尝试自己清理电脑， 搜索需要注意的地方， 例如经典防护
+- [ ] 这里`cancellation point` and `__THROW` 是什么
+/* Print a message describing the meaning of the value of errno. This function is a possible cancellation point and therefore not marked with __THROW.*/
 
 # current PROJECTS
 
@@ -17,6 +19,7 @@
 3. pyim-isearch. I need to know what am I typing into the search box, I need hints on the current input method, and I ought to have method to change it
 4. automate the procedure of insert a word and return its definition and its common usage. Maybe I need a local vocabulary table, and some mechanism to find and insert it.
 5. c programming **that's what i should polish in the future.** C NERVER DIES
+6. Mini-CubeMX：基于文本配置的 STM32 GPIO 代码生成器。
 
 ## some PROBLEMS found when exploring
 
