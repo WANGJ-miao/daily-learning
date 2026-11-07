@@ -3,6 +3,7 @@
 - [ ] 尝试自己清理电脑， 搜索需要注意的地方， 例如经典防护
 - [ ] 这里`cancellation point` and `__THROW` 是什么
 /* Print a message describing the meaning of the value of errno. This function is a possible cancellation point and therefore not marked with __THROW.*/
+- [ ] 问梅爷为什么要使用双板？ 是做了什么统计， 观察到什么现象了么？
 
 # current PROJECTS
 
