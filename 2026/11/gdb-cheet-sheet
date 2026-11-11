@@ -1,0 +1,297 @@
+================================================================================
+                   GDB CHEAT SHEET — STM32 / FreeRTOS
+================================================================================
+
+1. START GDB & CONNECT
+--------------------------------------------------------------------------------
+# Terminal 1: Start OpenOCD
+openocd -f interface/cmsis-dap.cfg -f target/stm32h7x.cfg
+
+# Terminal 2: Start GDB with TUI
+gdb-multiarch -tui build/firmware.elf
+
+# Inside GDB
+target extended-remote localhost:3333   Connect to OpenOCD
+monitor reset halt                       Reset and halt MCU
+monitor reset run                        Reset and run MCU
+load                                     Flash ELF to MCU
+file firmware.elf                        Load executable and symbols
+quit / q                                 Exit GDB
+
+
+2. EXECUTION CONTROL
+--------------------------------------------------------------------------------
+continue / c          Resume execution
+step / s              Step INTO function
+next / n              Step OVER function
+finish / fin          Step OUT of function
+stepi / si            Execute one assembly instruction
+nexti / ni            Step over one assembly instruction
+until / u             Continue until a later location (often exits a loop)
+return 0              Force current function to return 0
+Ctrl-C                Interrupt running program
+
+REMEMBER:
+    step    -> INTO
+    next    -> OVER
+    finish  -> OUT
+
+
+3. BREAKPOINTS & WATCHPOINTS
+--------------------------------------------------------------------------------
+break main                  Break at function
+b main.c:42                 Break at source line
+break *0x08000100           Break at address
+tbreak main                 Temporary breakpoint
+hbreak main                 Hardware breakpoint
+
+break main.c:42 if x == 10  Conditional breakpoint
+condition 1 x > 100         Add/change condition on breakpoint 1
+
+watch x                     Stop when x changes
+rwatch x                    Stop when x is read
+awatch x                    Stop when x is accessed
+
+info breakpoints            List breakpoints/watchpoints
+delete 1                    Delete breakpoint 1
+delete                      Delete all breakpoints
+disable 1                   Disable breakpoint 1
+enable 1                    Enable breakpoint 1
+clear main                  Remove breakpoint at main
+ignore 1 10                 Ignore next 10 hits of breakpoint 1
+
+
+4. INSPECT VARIABLES & EXPRESSIONS
+--------------------------------------------------------------------------------
+p x                         Print variable
+p/x x                       Print hexadecimal
+p/d x                       Print decimal
+p/t x                       Print binary
+p/c x                       Print character
+
+p *ptr                      Dereference pointer
+p &x                        Print address of variable
+p array[3]                  Inspect array element
+p obj.member                Inspect struct member
+p ptr->member               Inspect member through pointer
+
+p x == 0                    Evaluate comparison
+p x == pdFALSE              Compare against macro (requires macro info)
+p (int)state                Print enum as integer
+p sizeof(x)                 Print size of variable
+
+display x                   Auto-print x whenever execution stops
+info display                List auto-display expressions
+undisplay 1                 Remove display 1
+
+info locals                 Show local variables
+info args                   Show function arguments
+ptype x                     Show detailed type
+whatis x                    Show variable type
+
+set var x = 10              Modify variable value
+set print pretty on         Pretty-print structs
+
+# Macros (compile with -g3)
+info macro pdFALSE          Show macro definition
+macro expand pdFALSE        Expand macro
+
+
+5. MEMORY & REGISTERS
+--------------------------------------------------------------------------------
+info registers              Show CPU registers
+p $pc                       Program counter
+p $sp                       Stack pointer
+p $lr                       Link register
+p $xpsr                     Program status register (Cortex-M)
+
+x/4wx 0x20000000            Read 4 words in hexadecimal
+x/16bx 0x20000000           Read 16 bytes in hexadecimal
+x/10i $pc                   Show 10 instructions at PC
+x/s ptr                     Examine null-terminated string
+
+MEMORY SYNTAX:
+    x/NFU ADDRESS
+
+    N = Number of units
+    F = Format:
+        x = hexadecimal
+        d = decimal
+        t = binary
+        i = instruction
+        s = string
+    U = Unit size:
+        b = 1 byte
+        h = 2 bytes
+        w = 4 bytes
+        g = 8 bytes
+
+disassemble main            Disassemble function
+disassemble /s main         Source + assembly (if source info available)
+disassemble /r main         Include instruction bytes
+
+
+6. SOURCE CODE NAVIGATION
+--------------------------------------------------------------------------------
+list / l                    Show source code
+list main                   Show source around function
+list main.c:42              Show source near line 42
+list tasks.c:100            Show code in another file
+list *$pc                   Show source near current PC
+
+set listsize 30             Show 30 lines per list
+info sources                List source files
+info functions              List functions
+info variables              List global/static variables
+info line main              Show function source location
+directory /path/to/src      Add source search path
+set substitute-path OLD NEW Remap source paths
+
+NOTE: 'list' only displays code. It does not change execution.
+WARNING: 'jump' changes the program counter and execution flow!
+
+
+7. CALL STACK
+--------------------------------------------------------------------------------
+backtrace / bt              Show call stack
+bt full                     Show stack + local variables
+frame 0                     Select current frame
+frame 1                     Select caller frame
+up                          Move to caller frame
+down                        Move to callee frame
+info frame                  Inspect selected frame
+
+NOTE: 'up' and 'down' navigate stack frames without executing code.
+
+
+8. FREERTOS DEBUGGING
+--------------------------------------------------------------------------------
+p pxCurrentTCB              Current task's TCB pointer
+p pxCurrentTCB->pcTaskName  Current task name
+p pxCurrentTCB->uxPriority  Current task priority
+
+break vMyTask               Stop when task function is reached
+break vTaskDelay            Stop when task calls vTaskDelay
+break vTaskSwitchContext    Stop during task context selection
+
+info threads                List tasks (requires RTOS-aware OpenOCD)
+thread 2                    Select task 2 (if supported)
+thread apply all bt         Show stack trace for all recognized tasks
+
+NOTE:
+- pxCurrentTCB is a FreeRTOS internal variable.
+- A task may be Running, Ready, Blocked, or Suspended.
+- 'info threads' requires suitable RTOS-awareness support.
+- Breakpoints affect real-time behavior.
+
+
+9. GDB TUI
+--------------------------------------------------------------------------------
+gdb-multiarch -tui firmware.elf    Start GDB TUI
+
+tui enable                  Enable TUI
+tui disable                 Disable TUI
+
+layout src                  Show source
+layout asm                  Show assembly
+layout split                Show source + assembly
+layout regs                 Show registers alongside source/assembly
+layout next                 Cycle layouts
+
+tui reg general             Display general registers
+focus src                   Focus source window
+focus cmd                   Focus command window
+refresh                     Refresh screen
+
+Ctrl-x a                    Toggle TUI
+Ctrl-x 2                    Cycle layouts
+Ctrl-l                      Refresh screen
+
+NOTE:
+When source window is focused, arrow keys scroll source code.
+
+
+10. USEFUL EXTRAS
+--------------------------------------------------------------------------------
+help COMMAND                Show command documentation
+apropos keyword             Search commands by keyword
+show version                Show GDB version
+set pagination off          Disable pagination
+set print pretty on         Pretty-print structures
+set print elements 0        Remove array element printing limit
+set confirm off             Disable confirmation prompts
+source commands.gdb         Execute GDB script
+
+
+11. COMMON DEBUGGING WORKFLOW
+--------------------------------------------------------------------------------
+# Start GDB
+gdb-multiarch -tui build/firmware.elf
+
+# Connect to MCU
+(gdb) target extended-remote localhost:3333
+
+# Reset and halt
+(gdb) monitor reset halt
+
+# Set breakpoint
+(gdb) break main
+
+# Run until breakpoint
+(gdb) continue
+
+# Inspect current state
+(gdb) info locals
+(gdb) info registers
+(gdb) bt
+
+# Step through code
+(gdb) next
+(gdb) step
+(gdb) finish
+
+# Inspect variables
+(gdb) p xReturn
+(gdb) p xReturn == 0
+(gdb) p/x xReturn
+
+# Inspect task
+(gdb) p pxCurrentTCB->pcTaskName
+
+# Watch variable
+(gdb) watch counter
+
+# Continue execution
+(gdb) continue
+
+
+================================================================================
+                         QUICK REFERENCE
+================================================================================
+
+EXECUTION                  BREAKPOINTS               INSPECTION
+----------------------     ----------------------    ----------------------
+c       Continue           b main    Break          p x       Print x
+s       Step into          b file:42 Break at line  p/x x     Print hex
+n       Step over          tbreak    Temporary      ptype x   Show type
+finish  Step out           watch x   Watch writes  info locals
+si      Step instruction   info b    List breaks   info args
+ni      Next instruction   delete 1  Delete break  display x
+until   Exit loop (often)  disable 1 Disable       x/4wx ADDR
+
+STACK                      SOURCE                    TUI
+----------------------     ----------------------    ----------------------
+bt      Backtrace          l main    Show function  layout src
+bt full Full backtrace     l file:42 Show line      layout asm
+up      Caller frame       info sources             layout split
+down    Callee frame       info functions           layout regs
+frame N Select frame       info line main           focus src
+                                                     focus cmd
+
+================================================================================
+RECOMMENDED COMPILER FLAGS:
+    -Og -g3
+
+STM32 DEBUGGING CHAIN:
+    GDB -> TCP localhost:3333 -> OpenOCD -> CMSIS-DAP -> SWD -> STM32H7
+================================================================================

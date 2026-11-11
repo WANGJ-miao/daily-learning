@@ -30,3 +30,4 @@
 6. tear page
 7. 使用boomer的时候， 发生鼠标闪动
 8. 为什么在docker中输入C-n, C-p的时候， 只有按下下一个键的时候才会真正执行向上、下一个命令？
+9. some wired problems when booting
